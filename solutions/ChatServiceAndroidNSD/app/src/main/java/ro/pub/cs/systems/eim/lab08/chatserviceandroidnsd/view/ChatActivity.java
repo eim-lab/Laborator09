@@ -120,8 +120,8 @@ public class ChatActivity extends AppCompatActivity {
     public ChatNetworkServiceFragment getChatNetworkServiceFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(Constants.FRAGMENT_TAG);
-        if (fragment instanceof  ChatNetworkServiceFragment) {
-            return (ChatNetworkServiceFragment)fragment;
+        if (fragment instanceof ChatNetworkServiceFragment) {
+            return (ChatNetworkServiceFragment) fragment;
         }
         return null;
     }

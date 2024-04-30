@@ -33,6 +33,7 @@ public class ChatNetworkServiceFragment extends Fragment {
     private NetworkServiceAdapter conversationsAdapter = null;
 
     private final ServiceRegistrationStatusButtonListener serviceRegistrationStatusButtonListener = new ServiceRegistrationStatusButtonListener();
+
     private class ServiceRegistrationStatusButtonListener implements Button.OnClickListener {
 
         @Override
@@ -60,12 +61,13 @@ public class ChatNetworkServiceFragment extends Fragment {
     }
 
     private final ServiceDiscoveryStatusButtonListener serviceDiscoveryStatusButtonListener = new ServiceDiscoveryStatusButtonListener();
+
     private class ServiceDiscoveryStatusButtonListener implements Button.OnClickListener {
 
         @Override
         public void onClick(View view) {
             if (chatActivity.getServiceDiscoveryStatus()) {
-                ((ChatActivity)getActivity()).getNetworkServiceDiscoveryOperations().startNetworkServiceDiscovery();
+                ((ChatActivity) getActivity()).getNetworkServiceDiscoveryOperations().startNetworkServiceDiscovery();
                 startServiceDiscovery();
             } else {
                 networkServiceDiscoveryOperations.stopNetworkServiceDiscovery();
@@ -101,7 +103,7 @@ public class ChatNetworkServiceFragment extends Fragment {
         serviceDiscoveryStatusButton = getActivity().findViewById(R.id.service_discovery_status_button);
         serviceDiscoveryStatusButton.setOnClickListener(serviceDiscoveryStatusButtonListener);
 
-        chatActivity = (ChatActivity)getActivity();
+        chatActivity = (ChatActivity) getActivity();
         networkServiceDiscoveryOperations = chatActivity.getNetworkServiceDiscoveryOperations();
 
         ListView discoveredServicesListView = getActivity().findViewById(R.id.discovered_services_list_view);

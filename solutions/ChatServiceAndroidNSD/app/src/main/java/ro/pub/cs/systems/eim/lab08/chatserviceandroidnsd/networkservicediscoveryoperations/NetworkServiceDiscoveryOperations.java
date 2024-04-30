@@ -31,11 +31,11 @@ public class NetworkServiceDiscoveryOperations {
     private final NsdManager.RegistrationListener registrationListener;
 
     public NetworkServiceDiscoveryOperations(final Context context) {
-        this.chatActivity = (ChatActivity)context;
+        this.chatActivity = (ChatActivity) context;
         this.communicationToServers = new ArrayList<>();
         this.communicationFromClients = new ArrayList<>();
 
-        nsdManager = (NsdManager)context.getSystemService(Context.NSD_SERVICE);
+        nsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
 
         resolveListener = new NsdManager.ResolveListener() {
 
@@ -127,7 +127,7 @@ public class NetworkServiceDiscoveryOperations {
                     }
 
                     Log.d(Constants.TAG, "serviceName = " + serviceName + " nsdServiceInfo.getServiceName() = " + nsdServiceInfo.getServiceName());
-               });
+                });
             }
         };
 
@@ -179,7 +179,7 @@ public class NetworkServiceDiscoveryOperations {
     public void unregisterNetworkService() {
         Log.v(Constants.TAG, "Unregister network service");
         nsdManager.unregisterService(registrationListener);
-        for (ChatClient communicationFromClient: communicationFromClients) {
+        for (ChatClient communicationFromClient : communicationFromClients) {
             communicationFromClient.stopThreads();
         }
         communicationFromClients.clear();
@@ -200,7 +200,7 @@ public class NetworkServiceDiscoveryOperations {
         ArrayList<NetworkService> discoveredServices = chatActivity.getDiscoveredServices();
         discoveredServices.clear();
         chatActivity.setDiscoveredServices(discoveredServices);
-        for (ChatClient communicationToServer: communicationToServers) {
+        for (ChatClient communicationToServer : communicationToServers) {
             communicationToServer.stopThreads();
         }
         communicationToServers.clear();
@@ -217,7 +217,7 @@ public class NetworkServiceDiscoveryOperations {
     public void setCommunicationFromClients(List<ChatClient> communicationFromClients) {
         this.communicationFromClients = communicationFromClients;
         ArrayList<NetworkService> conversations = new ArrayList<>();
-        for (ChatClient communicationFromClient: communicationFromClients) {
+        for (ChatClient communicationFromClient : communicationFromClients) {
             NetworkService conversation = new NetworkService(
                     null,
                     communicationFromClient.getSocket().getInetAddress().toString(),

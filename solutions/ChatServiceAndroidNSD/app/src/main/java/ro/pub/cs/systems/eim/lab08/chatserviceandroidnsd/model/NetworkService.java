@@ -35,7 +35,7 @@ public class NetworkService {
         if (serviceName == null) {
             return false;
         }
-        return serviceName.equals(((NetworkService)networkService).getServiceName());
+        return serviceName.equals(((NetworkService) networkService).getServiceName());
     }
 
     @NonNull

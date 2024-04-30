@@ -48,7 +48,7 @@ public class NetworkServiceAdapter extends BaseAdapter {
             arguments.putInt(Constants.CLIENT_POSITION, clientPosition);
             arguments.putInt(Constants.CLIENT_TYPE, clientType);
             chatConversationFragment.setArguments(arguments);
-            FragmentManager fragmentManager = ((ChatActivity)context).getFragmentManager();
+            FragmentManager fragmentManager = ((ChatActivity) context).getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_frame_layout, chatConversationFragment, Constants.FRAGMENT_TAG);
             fragmentTransaction.addToBackStack(null);
@@ -61,7 +61,7 @@ public class NetworkServiceAdapter extends BaseAdapter {
         this.context = context;
         this.data = data;
 
-        layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void setData(ArrayList<NetworkService> data) {
@@ -89,7 +89,7 @@ public class NetworkServiceAdapter extends BaseAdapter {
 
         NetworkServiceViewHolder networkServiceViewHolder;
 
-        NetworkService networkService = (NetworkService)getItem(position);
+        NetworkService networkService = (NetworkService) getItem(position);
 
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.network_service, parent, false);
@@ -101,24 +101,17 @@ public class NetworkServiceAdapter extends BaseAdapter {
             view = convertView;
         }
 
-        networkServiceViewHolder = (NetworkServiceViewHolder)view.getTag();
+        networkServiceViewHolder = (NetworkServiceViewHolder) view.getTag();
         networkServiceViewHolder.networkServiceNameTextView.setText(networkService.toString());
         switch (networkService.getServiceType()) {
             case Constants.CONVERSATION_TO_SERVER:
-                networkServiceViewHolder.networkServiceConnectButton.setText(
-                        context.getResources().getString(R.string.connect));
+                networkServiceViewHolder.networkServiceConnectButton.setText(context.getResources().getString(R.string.connect));
                 break;
             case Constants.CONVERSATION_FROM_CLIENT:
-                networkServiceViewHolder.networkServiceConnectButton.setText(
-                        context.getResources().getString(R.string.view));
+                networkServiceViewHolder.networkServiceConnectButton.setText(context.getResources().getString(R.string.view));
                 break;
         }
-        networkServiceViewHolder.networkServiceConnectButton.setOnClickListener(
-                new NetworkServiceConnectButtonClickListener(
-                        position,
-                        networkService.getServiceType()
-                )
-        );
+        networkServiceViewHolder.networkServiceConnectButton.setOnClickListener(new NetworkServiceConnectButtonClickListener(position, networkService.getServiceType()));
 
         return view;
     }

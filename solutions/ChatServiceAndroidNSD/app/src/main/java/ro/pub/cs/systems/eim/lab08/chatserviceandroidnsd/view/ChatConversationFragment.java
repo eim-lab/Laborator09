@@ -29,6 +29,7 @@ public class ChatConversationFragment extends Fragment {
     private ChatClient chatClient = null;
 
     private final SendMessageButtonClickListener sendMessageButtonClickListener = new SendMessageButtonClickListener();
+
     private class SendMessageButtonClickListener implements Button.OnClickListener {
 
         @Override
@@ -54,7 +55,7 @@ public class ChatConversationFragment extends Fragment {
             TextView messageTextView = new TextView(getActivity());
             messageTextView.setText(message.getContent());
             LinearLayout.LayoutParams messageTextViewLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            switch(message.getType()) {
+            switch (message.getType()) {
                 case Constants.MESSAGE_TYPE_SENT:
                     messageTextView.setBackgroundResource(R.drawable.frame_border_sent_message);
                     messageTextView.setGravity(Gravity.START);
@@ -83,7 +84,7 @@ public class ChatConversationFragment extends Fragment {
         int clientPosition = arguments.getInt(Constants.CLIENT_POSITION, -1);
         int clientType = arguments.getInt(Constants.CLIENT_TYPE, -1);
 
-        ChatActivity chatServiceActivity = (ChatActivity)getActivity();
+        ChatActivity chatServiceActivity = (ChatActivity) getActivity();
         NetworkServiceDiscoveryOperations networkServiceDiscoveryOperations = chatServiceActivity.getNetworkServiceDiscoveryOperations();
 
         switch (clientType) {
@@ -104,7 +105,7 @@ public class ChatConversationFragment extends Fragment {
         if (chatClient != null) {
             chatClient.setContext(chatServiceActivity);
             List<Message> conversationHistory = chatClient.getConversationHistory();
-            for (Message conversation: conversationHistory) {
+            for (Message conversation : conversationHistory) {
                 appendMessage(conversation);
             }
         }

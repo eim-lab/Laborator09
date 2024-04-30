@@ -79,11 +79,11 @@ public class ChatClient {
                             Message message = new Message(content, Constants.MESSAGE_TYPE_SENT);
                             conversationHistory.add(message);
                             if (context != null) {
-                                ChatActivity chatActivity = (ChatActivity)context;
+                                ChatActivity chatActivity = (ChatActivity) context;
                                 FragmentManager fragmentManager = chatActivity.getFragmentManager();
                                 Fragment fragment = fragmentManager.findFragmentByTag(Constants.FRAGMENT_TAG);
                                 if (fragment instanceof ChatConversationFragment && fragment.isVisible()) {
-                                    ChatConversationFragment chatConversationFragment = (ChatConversationFragment)fragment;
+                                    ChatConversationFragment chatConversationFragment = (ChatConversationFragment) fragment;
                                     chatConversationFragment.appendMessage(message);
                                 }
                             }
@@ -118,11 +118,11 @@ public class ChatClient {
                             Message message = new Message(content, Constants.MESSAGE_TYPE_RECEIVED);
                             conversationHistory.add(message);
                             if (context != null) {
-                                ChatActivity chatActivity = (ChatActivity)context;
+                                ChatActivity chatActivity = (ChatActivity) context;
                                 FragmentManager fragmentManager = chatActivity.getFragmentManager();
                                 Fragment fragment = fragmentManager.findFragmentByTag(Constants.FRAGMENT_TAG);
                                 if (fragment instanceof ChatConversationFragment && fragment.isVisible()) {
-                                    ChatConversationFragment chatConversationFragment = (ChatConversationFragment)fragment;
+                                    ChatConversationFragment chatConversationFragment = (ChatConversationFragment) fragment;
                                     chatConversationFragment.appendMessage(message);
                                 }
                             }

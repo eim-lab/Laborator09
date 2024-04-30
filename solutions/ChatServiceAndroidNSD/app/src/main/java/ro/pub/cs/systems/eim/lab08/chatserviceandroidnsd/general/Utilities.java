@@ -34,7 +34,7 @@ public class Utilities {
         StringBuilder result = new StringBuilder("-");
         Random random = new Random();
         for (int index = 0; index < length; index++) {
-            result.append((char)(Constants.FIRST_LETTER + random.nextInt(Constants.ALPHABET_LENGTH)));
+            result.append((char) (Constants.FIRST_LETTER + random.nextInt(Constants.ALPHABET_LENGTH)));
         }
         return result.toString();
     }
