@@ -21,10 +21,10 @@ import ro.pub.cs.systems.eim.lab08.chatserviceandroidnsd.view.ChatConversationFr
 
 public class NetworkServiceAdapter extends BaseAdapter {
 
-    private Context context = null;
-    private LayoutInflater layoutInflater = null;
+    private final Context context;
+    private final LayoutInflater layoutInflater;
 
-    private ArrayList<NetworkService> data = null;
+    private ArrayList<NetworkService> data;
 
     private static class NetworkServiceViewHolder {
         private TextView networkServiceNameTextView;
