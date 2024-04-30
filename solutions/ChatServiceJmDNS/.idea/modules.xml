@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ChatServiceJmDNS.iml" filepath="$PROJECT_DIR$/ChatServiceJmDNS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jmdns/jmdns.iml" filepath="$PROJECT_DIR$/jmdns/jmdns.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ChatServiceJmDNS.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ChatServiceJmDNS.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ChatServiceJmDNS.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ChatServiceJmDNS.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ChatServiceJmDNS.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ChatServiceJmDNS.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ChatServiceJmDNS.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ChatServiceJmDNS.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jmdns/ChatServiceJmDNS.jmdns.iml" filepath="$PROJECT_DIR$/.idea/modules/jmdns/ChatServiceJmDNS.jmdns.iml" />
     </modules>
   </component>
 </project>

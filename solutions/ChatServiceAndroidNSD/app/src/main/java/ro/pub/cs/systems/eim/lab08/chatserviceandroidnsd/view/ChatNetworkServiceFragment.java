@@ -121,22 +121,22 @@ public class ChatNetworkServiceFragment extends Fragment {
     }
 
     public void startServiceRegistration() {
-        serviceRegistrationStatusButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorGreen));
+        serviceRegistrationStatusButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
         serviceRegistrationStatusButton.setText(getContext().getResources().getString(R.string.unregister_service));
     }
 
     public void stopServiceRegistration() {
-        serviceRegistrationStatusButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorRed));
+        serviceRegistrationStatusButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorRed));
         serviceRegistrationStatusButton.setText(getContext().getResources().getString(R.string.register_service));
     }
 
     public void startServiceDiscovery() {
-        serviceDiscoveryStatusButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorGreen));
+        serviceDiscoveryStatusButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
         serviceDiscoveryStatusButton.setText(getContext().getResources().getString(R.string.stop_service_discovery));
     }
 
     public void stopServiceDiscovery() {
-        serviceDiscoveryStatusButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorRed));
+        serviceDiscoveryStatusButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorRed));
         serviceDiscoveryStatusButton.setText(getContext().getResources().getString(R.string.start_service_discovery));
     }
 
