@@ -32,15 +32,12 @@ public class ChatNetworkServiceFragment extends Fragment {
     private NetworkServiceAdapter discoveredServicesAdapter = null;
     private NetworkServiceAdapter conversationsAdapter = null;
 
-    private ListView discoveredServicesListView = null;
-    private ListView conversationsListView = null;
-
-    private ServiceRegistrationStatusButtonListener serviceRegistrationStatusButtonListener = new ServiceRegistrationStatusButtonListener();
+    private final ServiceRegistrationStatusButtonListener serviceRegistrationStatusButtonListener = new ServiceRegistrationStatusButtonListener();
     private class ServiceRegistrationStatusButtonListener implements Button.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            if (!chatActivity.getServiceRegistrationStatus()) {
+            if (chatActivity.getServiceRegistrationStatus()) {
                 String port = servicePortEditText.getText().toString();
                 if (port.isEmpty()) {
                     Toast.makeText(getActivity(), "Field service port should be filled!", Toast.LENGTH_LONG).show();
@@ -50,9 +47,6 @@ public class ChatNetworkServiceFragment extends Fragment {
                     networkServiceDiscoveryOperations.registerNetworkService(Integer.parseInt(port));
                 } catch (Exception exception) {
                     Log.e(Constants.TAG, "Could not register network service: " + exception.getMessage());
-                    if (Constants.DEBUG) {
-                        exception.printStackTrace();
-                    }
                     return;
                 }
                 startServiceRegistration();
@@ -60,24 +54,24 @@ public class ChatNetworkServiceFragment extends Fragment {
                 networkServiceDiscoveryOperations.unregisterNetworkService();
                 stopServiceRegistration();
             }
-            chatActivity.setServiceRegistrationStatus(!chatActivity.getServiceRegistrationStatus());
+            chatActivity.setServiceRegistrationStatus(chatActivity.getServiceRegistrationStatus());
         }
 
     }
 
-    private ServiceDiscoveryStatusButtonListener serviceDiscoveryStatusButtonListener = new ServiceDiscoveryStatusButtonListener();
+    private final ServiceDiscoveryStatusButtonListener serviceDiscoveryStatusButtonListener = new ServiceDiscoveryStatusButtonListener();
     private class ServiceDiscoveryStatusButtonListener implements Button.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            if (!chatActivity.getServiceDiscoveryStatus()) {
+            if (chatActivity.getServiceDiscoveryStatus()) {
                 ((ChatActivity)getActivity()).getNetworkServiceDiscoveryOperations().startNetworkServiceDiscovery();
                 startServiceDiscovery();
             } else {
                 networkServiceDiscoveryOperations.stopNetworkServiceDiscovery();
                 stopServiceDiscovery();
             }
-            chatActivity.setServiceDiscoveryStatus(!chatActivity.getServiceDiscoveryStatus());
+            chatActivity.setServiceDiscoveryStatus(chatActivity.getServiceDiscoveryStatus());
         }
 
     }
@@ -99,22 +93,22 @@ public class ChatNetworkServiceFragment extends Fragment {
 
         Log.v(Constants.TAG, "ChatNetworkServiceFragment -> onActivityCreated() callback method was invoked");
 
-        servicePortEditText = (EditText)getActivity().findViewById(R.id.port_edit_text);
+        servicePortEditText = getActivity().findViewById(R.id.port_edit_text);
 
-        serviceRegistrationStatusButton = (Button)getActivity().findViewById(R.id.service_registration_status_button);
+        serviceRegistrationStatusButton = getActivity().findViewById(R.id.service_registration_status_button);
         serviceRegistrationStatusButton.setOnClickListener(serviceRegistrationStatusButtonListener);
 
-        serviceDiscoveryStatusButton = (Button)getActivity().findViewById(R.id.service_discovery_status_button);
+        serviceDiscoveryStatusButton = getActivity().findViewById(R.id.service_discovery_status_button);
         serviceDiscoveryStatusButton.setOnClickListener(serviceDiscoveryStatusButtonListener);
 
         chatActivity = (ChatActivity)getActivity();
         networkServiceDiscoveryOperations = chatActivity.getNetworkServiceDiscoveryOperations();
 
-        discoveredServicesListView = (ListView)getActivity().findViewById(R.id.discovered_services_list_view);
+        ListView discoveredServicesListView = getActivity().findViewById(R.id.discovered_services_list_view);
         discoveredServicesAdapter = new NetworkServiceAdapter(chatActivity, chatActivity.getDiscoveredServices());
         discoveredServicesListView.setAdapter(discoveredServicesAdapter);
 
-        conversationsListView = (ListView)getActivity().findViewById(R.id.conversations_list_view);
+        ListView conversationsListView = getActivity().findViewById(R.id.conversations_list_view);
         conversationsAdapter = new NetworkServiceAdapter(chatActivity, chatActivity.getConversations());
         conversationsListView.setAdapter(conversationsAdapter);
     }
@@ -126,34 +120,27 @@ public class ChatNetworkServiceFragment extends Fragment {
 
     public void startServiceRegistration() {
         serviceRegistrationStatusButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorGreen));
-        serviceRegistrationStatusButton.setText(getResources().getString(R.string.unregister_service));
+        serviceRegistrationStatusButton.setText(getContext().getResources().getString(R.string.unregister_service));
     }
 
     public void stopServiceRegistration() {
         serviceRegistrationStatusButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorRed));
-        serviceRegistrationStatusButton.setText(getResources().getString(R.string.register_service));
+        serviceRegistrationStatusButton.setText(getContext().getResources().getString(R.string.register_service));
     }
 
     public void startServiceDiscovery() {
         serviceDiscoveryStatusButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorGreen));
-        serviceDiscoveryStatusButton.setText(getResources().getString(R.string.stop_service_discovery));
+        serviceDiscoveryStatusButton.setText(getContext().getResources().getString(R.string.stop_service_discovery));
     }
 
     public void stopServiceDiscovery() {
         serviceDiscoveryStatusButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorRed));
-        serviceDiscoveryStatusButton.setText(getResources().getString(R.string.start_service_discovery));
+        serviceDiscoveryStatusButton.setText(getContext().getResources().getString(R.string.start_service_discovery));
     }
 
-    public void setDiscoveredServicesAdapter(NetworkServiceAdapter discoveredServicesAdapter) {
-        this.discoveredServicesAdapter = discoveredServicesAdapter;
-    }
 
     public NetworkServiceAdapter getDiscoveredServicesAdapter() {
         return discoveredServicesAdapter;
-    }
-
-    public void setConversationsAdapter(NetworkServiceAdapter conversationsAdapter) {
-        this.conversationsAdapter = conversationsAdapter;
     }
 
     public NetworkServiceAdapter getConversationsAdapter() {

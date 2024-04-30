@@ -17,23 +17,20 @@ import ro.pub.cs.systems.eim.lab08.chatserviceandroidnsd.view.ChatActivity;
 
 public class NetworkServiceDiscoveryOperations {
 
-    private Context context = null;
-    private ChatActivity chatActivity = null;
+    private final ChatActivity chatActivity;
 
     private String serviceName = null;
 
     private ChatServer chatServer = null;
-    private List<ChatClient> communicationToServers = null;
-    private List<ChatClient> communicationFromClients = null;
+    private final List<ChatClient> communicationToServers;
+    private List<ChatClient> communicationFromClients;
 
-    private NsdManager nsdManager = null;
-    private NsdManager.ResolveListener resolveListener = null;
-    private NsdManager.DiscoveryListener discoveryListener = null;
-    private NsdManager.RegistrationListener registrationListener = null;
+    private final NsdManager nsdManager;
+    private final NsdManager.ResolveListener resolveListener;
+    private final NsdManager.DiscoveryListener discoveryListener;
+    private final NsdManager.RegistrationListener registrationListener;
 
     public NetworkServiceDiscoveryOperations(final Context context) {
-
-        this.context = context;
         this.chatActivity = (ChatActivity)context;
         this.communicationToServers = new ArrayList<>();
         this.communicationFromClients = new ArrayList<>();
@@ -119,21 +116,18 @@ public class NetworkServiceDiscoveryOperations {
                 Log.i(Constants.TAG, "Service lost: " + nsdServiceInfo);
 
                 Handler handler = chatActivity.getHandler();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<NetworkService> discoveredServices = chatActivity.getDiscoveredServices();
-                        NetworkService networkService = new NetworkService(nsdServiceInfo.getServiceName(), nsdServiceInfo.getHost() != null ? nsdServiceInfo.getHost().toString() : null, nsdServiceInfo.getPort(), -1);
-                        if (discoveredServices.contains(networkService)) {
-                            int position = discoveredServices.indexOf(networkService);
-                            discoveredServices.remove(position);
-                            communicationToServers.remove(position);
-                            chatActivity.setDiscoveredServices(discoveredServices);
-                        }
+                handler.post(() -> {
+                    ArrayList<NetworkService> discoveredServices = chatActivity.getDiscoveredServices();
+                    NetworkService networkService = new NetworkService(nsdServiceInfo.getServiceName(), nsdServiceInfo.getHost() != null ? nsdServiceInfo.getHost().toString() : null, nsdServiceInfo.getPort(), -1);
+                    if (discoveredServices.contains(networkService)) {
+                        int position = discoveredServices.indexOf(networkService);
+                        discoveredServices.remove(position);
+                        communicationToServers.remove(position);
+                        chatActivity.setDiscoveredServices(discoveredServices);
+                    }
 
-                        Log.d(Constants.TAG, "serviceName = " + serviceName + " nsdServiceInfo.getServiceName() = " + nsdServiceInfo.getServiceName());
-                   }
-                });
+                    Log.d(Constants.TAG, "serviceName = " + serviceName + " nsdServiceInfo.getServiceName() = " + nsdServiceInfo.getServiceName());
+               });
             }
         };
 
@@ -212,20 +206,8 @@ public class NetworkServiceDiscoveryOperations {
         communicationToServers.clear();
     }
 
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     public List<ChatClient> getCommunicationToServers() {
         return communicationToServers;
-    }
-
-    public void setCommunicationToServers(List<ChatClient> communicationToServers) {
-        this.communicationToServers = communicationToServers;
     }
 
     public List<ChatClient> getCommunicationFromClients() {

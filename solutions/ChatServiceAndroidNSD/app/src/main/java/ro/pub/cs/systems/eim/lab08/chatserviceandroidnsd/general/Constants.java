@@ -1,6 +1,6 @@
 package ro.pub.cs.systems.eim.lab08.chatserviceandroidnsd.general;
 
-public interface Constants {
+public class Constants {
 
     final public static boolean DEBUG = true;
 

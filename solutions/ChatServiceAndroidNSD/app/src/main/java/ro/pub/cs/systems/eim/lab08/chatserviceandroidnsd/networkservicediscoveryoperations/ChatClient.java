@@ -24,14 +24,14 @@ public class ChatClient {
 
     private Socket socket = null;
 
-    private Context context = null;
+    private Context context;
 
     private SendThread sendThread = null;
     private ReceiveThread receiveThread = null;
 
-    private BlockingQueue<String> messageQueue = new ArrayBlockingQueue<String>(Constants.MESSAGE_QUEUE_CAPACITY);
+    private final BlockingQueue<String> messageQueue = new ArrayBlockingQueue<>(Constants.MESSAGE_QUEUE_CAPACITY);
 
-    private List<Message> conversationHistory = new ArrayList<>();
+    private final List<Message> conversationHistory = new ArrayList<>();
 
     public ChatClient(Context context, String host, int port) {
         this.context = context;
@@ -40,9 +40,6 @@ public class ChatClient {
             Log.d(Constants.TAG, "A socket has been created on: " + socket.getInetAddress() + ":" + socket.getLocalPort());
         } catch (IOException ioException) {
             Log.e(Constants.TAG, "An exception has occurred while creating the socket: " + ioException.getMessage());
-            if (Constants.DEBUG) {
-                ioException.printStackTrace();
-            }
         }
         if (socket != null) {
             startThreads();
@@ -62,9 +59,6 @@ public class ChatClient {
             messageQueue.put(message);
         } catch (InterruptedException interruptedException) {
             Log.e(Constants.TAG, "An exception has occurred: " + interruptedException.getMessage());
-            if (Constants.DEBUG) {
-                interruptedException.printStackTrace();
-            }
         }
     }
 
@@ -97,9 +91,6 @@ public class ChatClient {
                     }
                 } catch (InterruptedException interruptedException) {
                     Log.e(Constants.TAG, "An exception has occurred: " + interruptedException.getMessage());
-                    if (Constants.DEBUG) {
-                        interruptedException.printStackTrace();
-                    }
                 }
             }
 
@@ -139,9 +130,6 @@ public class ChatClient {
                     }
                 } catch (IOException ioException) {
                     Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
-                    if (Constants.DEBUG) {
-                        ioException.printStackTrace();
-                    }
                 }
             }
 
@@ -154,10 +142,6 @@ public class ChatClient {
 
     }
 
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
-
     public Socket getSocket() {
         return socket;
     }
@@ -166,13 +150,6 @@ public class ChatClient {
         this.context = context;
     }
 
-    public Context getContext() {
-        return context;
-    }
-
-    public void setConversationHistory(List<Message> conversationHistory) {
-        this.conversationHistory = conversationHistory;
-    }
 
     public List<Message> getConversationHistory() {
         return conversationHistory;
@@ -195,9 +172,6 @@ public class ChatClient {
             }
         } catch (IOException ioException) {
             Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
-            if (Constants.DEBUG) {
-                ioException.printStackTrace();
-            }
         }
     }
 }

@@ -33,8 +33,8 @@ public class NetworkServiceAdapter extends BaseAdapter {
 
     private class NetworkServiceConnectButtonClickListener implements Button.OnClickListener {
 
-        private int clientPosition = -1;
-        private int clientType = -1;
+        private final int clientPosition;
+        private final int clientType;
 
         public NetworkServiceConnectButtonClickListener(int clientPosition, int clientType) {
             this.clientPosition = clientPosition;
@@ -68,10 +68,6 @@ public class NetworkServiceAdapter extends BaseAdapter {
         this.data = data;
     }
 
-    public ArrayList<NetworkService> getData() {
-        return data;
-    }
-
     @Override
     public int getCount() {
         return data.size();
@@ -98,8 +94,8 @@ public class NetworkServiceAdapter extends BaseAdapter {
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.network_service, parent, false);
             networkServiceViewHolder = new NetworkServiceViewHolder();
-            networkServiceViewHolder.networkServiceNameTextView = (TextView)view.findViewById(R.id.networkservice_name_text_view);
-            networkServiceViewHolder.networkServiceConnectButton = (Button)view.findViewById(R.id.network_service_connect_button);
+            networkServiceViewHolder.networkServiceNameTextView = view.findViewById(R.id.networkservice_name_text_view);
+            networkServiceViewHolder.networkServiceConnectButton = view.findViewById(R.id.network_service_connect_button);
             view.setTag(networkServiceViewHolder);
         } else {
             view = convertView;

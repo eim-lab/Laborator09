@@ -17,9 +17,6 @@ public class Utilities {
             return new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException ioException) {
             Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
-            if (Constants.DEBUG) {
-                ioException.printStackTrace();
-            }
         }
         return null;
     }
@@ -29,15 +26,12 @@ public class Utilities {
             return new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));
         } catch (IOException ioException) {
             Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
-            if (Constants.DEBUG) {
-                ioException.getMessage();
-            }
         }
         return null;
     }
 
     public static String generateIdentifier(int length) {
-        StringBuffer result = new StringBuffer("-");
+        StringBuilder result = new StringBuilder("-");
         Random random = new Random();
         for (int index = 0; index < length; index++) {
             result.append((char)(Constants.FIRST_LETTER + random.nextInt(Constants.ALPHABET_LENGTH)));

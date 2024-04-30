@@ -131,7 +131,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public boolean getServiceRegistrationStatus() {
-        return serviceRegistrationStatus;
+        return !serviceRegistrationStatus;
     }
 
     public void setServiceDiscoveryStatus(boolean serviceDiscoveryStatus) {
@@ -139,19 +139,16 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public boolean getServiceDiscoveryStatus() {
-        return serviceDiscoveryStatus;
+        return !serviceDiscoveryStatus;
     }
 
     public void setDiscoveredServices(final ArrayList<NetworkService> discoveredServices) {
         this.discoveredServices = discoveredServices;
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                ChatNetworkServiceFragment chatNetworkServiceFragment = getChatNetworkServiceFragment();
-                if (chatNetworkServiceFragment != null && chatNetworkServiceFragment.isVisible()) {
-                    chatNetworkServiceFragment.getDiscoveredServicesAdapter().setData(discoveredServices);
-                    chatNetworkServiceFragment.getDiscoveredServicesAdapter().notifyDataSetChanged();
-                }
+        handler.post(() -> {
+            ChatNetworkServiceFragment chatNetworkServiceFragment = getChatNetworkServiceFragment();
+            if (chatNetworkServiceFragment != null && chatNetworkServiceFragment.isVisible()) {
+                chatNetworkServiceFragment.getDiscoveredServicesAdapter().setData(discoveredServices);
+                chatNetworkServiceFragment.getDiscoveredServicesAdapter().notifyDataSetChanged();
             }
         });
     }
@@ -162,14 +159,11 @@ public class ChatActivity extends AppCompatActivity {
 
     public void setConversations(final ArrayList<NetworkService> conversations) {
         this.conversations = conversations;
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                ChatNetworkServiceFragment chatNetworkServiceFragment = getChatNetworkServiceFragment();
-                if (chatNetworkServiceFragment != null && chatNetworkServiceFragment.isVisible()) {
-                    chatNetworkServiceFragment.getConversationsAdapter().setData(conversations);
-                    chatNetworkServiceFragment.getConversationsAdapter().notifyDataSetChanged();
-                }
+        handler.post(() -> {
+            ChatNetworkServiceFragment chatNetworkServiceFragment = getChatNetworkServiceFragment();
+            if (chatNetworkServiceFragment != null && chatNetworkServiceFragment.isVisible()) {
+                chatNetworkServiceFragment.getConversationsAdapter().setData(conversations);
+                chatNetworkServiceFragment.getConversationsAdapter().notifyDataSetChanged();
             }
         });
     }

@@ -11,7 +11,7 @@ import ro.pub.cs.systems.eim.lab08.chatserviceandroidnsd.general.Constants;
 
 public class ChatServer extends Thread {
 
-    private NetworkServiceDiscoveryOperations networkServiceDiscoveryOperations = null;
+    private final NetworkServiceDiscoveryOperations networkServiceDiscoveryOperations;
 
     private ServerSocket serverSocket = null;
 
@@ -21,9 +21,6 @@ public class ChatServer extends Thread {
             serverSocket = new ServerSocket(port);
         } catch (IOException ioException) {
             Log.e(Constants.TAG, "An exception has occurred while opening the server socket: " + ioException.getMessage());
-            if (Constants.DEBUG) {
-                ioException.printStackTrace();
-            }
         }
     }
 
@@ -39,9 +36,6 @@ public class ChatServer extends Thread {
                 networkServiceDiscoveryOperations.setCommunicationFromClients(communicationFromClients);
             } catch (IOException ioException) {
                 Log.e(Constants.TAG, "An exception has occurred during server run: " + ioException.getMessage());
-                if (Constants.DEBUG) {
-                    ioException.printStackTrace();
-                }
             }
         }
     }
@@ -58,9 +52,6 @@ public class ChatServer extends Thread {
             }
         } catch (IOException ioException) {
             Log.e(Constants.TAG, "An error has occurred while closing the server socket: " + ioException.getMessage());
-            if (Constants.DEBUG) {
-                ioException.printStackTrace();
-            }
         }
     }
 }
