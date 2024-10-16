@@ -82,7 +82,6 @@ public class ChatClient {
             if (printWriter != null) {
                 Log.d(Constants.TAG, "Sending messages to " + socket.getInetAddress() + ":" + socket.getLocalPort());
                 try {
-
                     // TODO exercise 6
                     // iterate while the thread is not yet interrupted
                     // - get the content (a line) from the messageQueue, if available, using the take() method
@@ -91,7 +90,6 @@ public class ChatClient {
                     //   - create a Message instance, with the content received and Constants.MESSAGE_TYPE_SENT as message type
                     //   - add the message to the conversationHistory
                     //   - if the ChatConversationFragment is visible (query the FragmentManager for the Constants.FRAGMENT_TAG tag)
-
                 } catch (Exception exception) {
                     Log.e(Constants.TAG, "An exception has occurred: " + exception.getMessage());
                     if (Constants.DEBUG) {
@@ -117,20 +115,27 @@ public class ChatClient {
             if (bufferedReader != null) {
                 Log.d(Constants.TAG, "Receiving messages from " + socket.getInetAddress() + ":" + socket.getLocalPort());
                 try {
-
-                    // TODO: exercise 7
-                    // iterate while the thread is not yet interrupted
-                    // - receive the content (a line) from the bufferedReader, if available
-                    // - if the content is not null
-                    //   - create a Message instance, with the content received and Constants.MESSAGE_TYPE_RECEIVED as message type
-                    //   - add the message to the conversationHistory
-                    //   - if the ChatConversationFragment is visible (query the FragmentManager for the Constants.FRAGMENT_TAG tag)
-                    //   append the message to the graphic user interface
-
-                } catch (Exception exception) {
-                    Log.e(Constants.TAG, "An exception has occurred: " + exception.getMessage());
+                    while (!Thread.currentThread().isInterrupted()) {
+                        String content = bufferedReader.readLine();
+                        if (content != null) {
+                            Log.d(Constants.TAG, "Received the message: " + content);
+                            Message message = new Message(content, Constants.MESSAGE_TYPE_RECEIVED);
+                            conversationHistory.add(message);
+                            if (context != null) {
+                                ChatActivity chatActivity = (ChatActivity)context;
+                                FragmentManager fragmentManager = chatActivity.getFragmentManager();
+                                Fragment fragment = fragmentManager.findFragmentByTag(Constants.FRAGMENT_TAG);
+                                if (fragment instanceof ChatConversationFragment && fragment.isVisible()) {
+                                    ChatConversationFragment chatConversationFragment = (ChatConversationFragment)fragment;
+                                    chatConversationFragment.appendMessage(message);
+                                }
+                            }
+                        }
+                    }
+                } catch (IOException ioException) {
+                    Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
                     if (Constants.DEBUG) {
-                        exception.printStackTrace();
+                        ioException.printStackTrace();
                     }
                 }
             }
