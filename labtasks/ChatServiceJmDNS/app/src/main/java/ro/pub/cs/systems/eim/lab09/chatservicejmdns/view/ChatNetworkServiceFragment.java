@@ -2,7 +2,6 @@ package ro.pub.cs.systems.eim.lab09.chatservicejmdns.view;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 
 import ro.pub.cs.systems.eim.lab09.chatservicejmdns.R;
 import ro.pub.cs.systems.eim.lab09.chatservicejmdns.controller.NetworkServiceAdapter;
@@ -34,6 +41,7 @@ public class ChatNetworkServiceFragment extends Fragment {
 
     private ListView discoveredServicesListView = null;
     private ListView conversationsListView = null;
+
 
     private ServiceRegistrationStatusButtonListener serviceRegistrationStatusButtonListener = new ServiceRegistrationStatusButtonListener();
     private class ServiceRegistrationStatusButtonListener implements Button.OnClickListener {
@@ -89,10 +97,12 @@ public class ChatNetworkServiceFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_chat_network_service, parent, false);
         }
-	// Question 5c
-	// get a list of network interfaces available on the phone
-	// get a list of IPv4 addresses associated with these interfaces
-	// Update the textview with the local addresses
+
+        // Question 5c
+        // get a list of network interfaces available on the phone
+        // get a list of IPv4 addresses associated with these interfaces
+        // Update the textview with the local addresses
+
         return view;
     }
 

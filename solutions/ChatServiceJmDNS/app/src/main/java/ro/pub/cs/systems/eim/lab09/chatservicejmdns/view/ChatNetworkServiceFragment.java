@@ -2,7 +2,6 @@ package ro.pub.cs.systems.eim.lab09.chatservicejmdns.view;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +12,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
-import java.util.List;
 
 import ro.pub.cs.systems.eim.lab09.chatservicejmdns.R;
 import ro.pub.cs.systems.eim.lab09.chatservicejmdns.controller.NetworkServiceAdapter;
 import ro.pub.cs.systems.eim.lab09.chatservicejmdns.general.Constants;
-import ro.pub.cs.systems.eim.lab09.chatservicejmdns.networkservicediscoveryoperations.ChatClient;
 import ro.pub.cs.systems.eim.lab09.chatservicejmdns.networkservicediscoveryoperations.NetworkServiceDiscoveryOperations;
 
 public class ChatNetworkServiceFragment extends Fragment {
