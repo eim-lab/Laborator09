@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 30
     defaultConfig {
-        applicationId "ro.pub.cs.systems.eim.lab08.chatservicejmdns"
+        applicationId "ro.pub.cs.systems.eim.lab09.chatservicejmdns"
         minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
@@ -16,8 +16,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+     compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
 }
 
+    kotlinOptions {
+        jvmTarget='17'
+    }
+    namespace 'ro.pub.cs.systems.eim.lab09.chatservicejmdns'
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

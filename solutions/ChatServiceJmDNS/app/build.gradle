@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion "28.0.3"
     defaultConfig {
-        applicationId "ro.pub.cs.systems.eim.lab08.chatservicejmdns"
+        applicationId "ro.pub.cs.systems.eim.lab09.chatservicejmdns"
         minSdkVersion 24
         targetSdkVersion 27
         versionCode 1

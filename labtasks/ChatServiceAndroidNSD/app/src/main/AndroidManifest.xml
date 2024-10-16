@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ro.pub.cs.systems.eim.lab08.chatserviceandroidnsd">
+    package="ro.pub.cs.systems.eim.lab09.chatserviceandroidnsd">
 
     <uses-permission
         android:name="android.permission.INTERNET"/>
