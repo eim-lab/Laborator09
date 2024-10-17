@@ -11,7 +11,6 @@ import java.net.ServerSocket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
@@ -151,7 +150,6 @@ public class NetworkServiceDiscoveryOperations {
                     discoveredServices.add(networkService);
                     chatActivity.setDiscoveredServices(discoveredServices);
                 }
-
                 Log.i(Constants.TAG, "A service has been discovered on " + host + ":" + port);
             }
         };
@@ -178,9 +176,10 @@ public class NetworkServiceDiscoveryOperations {
             serviceName = serviceInfo.getName();
             jmDNS.registerService(serviceInfo);
         }
-	// question 5d
-	// set the title of the activity to the advertised service name
-	// Log name, type and port 
+
+        // question 5d
+        // set the title of the activity to the advertised service name
+        // Log name, type and port
     }
 
     public void unregisterNetworkService() {
@@ -197,7 +196,7 @@ public class NetworkServiceDiscoveryOperations {
         conversations.clear();
         chatActivity.setConversations(conversations);
         // question 5d
-	// reset the title to default when not advertising anything
+        // reset the title to default when not advertising anything
     }
 
     public void startNetworkServiceDiscovery() {
