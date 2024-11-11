@@ -11,7 +11,6 @@ import java.net.ServerSocket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
@@ -23,45 +22,40 @@ import ro.pub.cs.systems.eim.lab09.chatservicejmdns.model.NetworkService;
 import ro.pub.cs.systems.eim.lab09.chatservicejmdns.view.ChatActivity;
 
 public class NetworkServiceDiscoveryOperations {
-
-    private Context context = null;
-    private ChatActivity chatActivity = null;
+    private final ChatActivity chatActivity;
 
     private String serviceName = null;
 
     private ChatServer chatServer = null;
-    private List<ChatClient> communicationToServers = null;
-    private List<ChatClient> communicationFromClients = null;
+    private final List<ChatClient> communicationToServers;
+    private List<ChatClient> communicationFromClients;
 
     private JmDNS jmDNS = null;
-    private ServiceListener serviceListener = null;
+    private final ServiceListener serviceListener;
 
     public NetworkServiceDiscoveryOperations(final Context context) {
-
-        this.context = context;
         this.chatActivity = (ChatActivity)context;
 
         this.communicationToServers = new ArrayList<>();
         this.communicationFromClients = new ArrayList<>();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    WifiManager wifiManager = ((ChatActivity)context).getWifiManager();
-                    InetAddress address = InetAddress.getByAddress(
-                            ByteBuffer.allocate(4).putInt(Integer.reverseBytes(wifiManager.getConnectionInfo().getIpAddress())).array()
-                    );
-                    String name = address.getHostName();
-                    Log.i(Constants.TAG, "address = " + address + " name = " + name);
-                    jmDNS = JmDNS.create(address, name);
-                } catch (IOException ioException) {
-                    Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
-                    if (Constants.DEBUG) {
-                        ioException.printStackTrace();
-                    }
+        new Thread(() -> {
+            try {
+                WifiManager wifiManager = ((ChatActivity)context).getWifiManager();
+                InetAddress address = InetAddress.getByAddress(
+                        ByteBuffer.allocate(4).putInt(Integer.reverseBytes(wifiManager.getConnectionInfo().getIpAddress())).array()
+                );
+
+                String name = address.getHostName();
+                Log.i(Constants.TAG, "address = " + address + " name = " + name);
+                jmDNS = JmDNS.create(address, name);
+
+            } catch (IOException ioException) {
+                Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
+                if (Constants.DEBUG) {
+                    ioException.printStackTrace();
                 }
-           }
+            }
         }).start();
 
         serviceListener = new ServiceListener() {
@@ -101,17 +95,15 @@ public class NetworkServiceDiscoveryOperations {
                 final int finalizedPort = serviceInfo.getPort();
 
                 Handler handler = chatActivity.getHandler();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<NetworkService> discoveredServices = chatActivity.getDiscoveredServices();
-                        NetworkService networkService = new NetworkService(serviceEvent.getName(), finalizedHost, finalizedPort, -1);
-                        if (discoveredServices.contains(networkService)) {
-                            int position = discoveredServices.indexOf(networkService);
-                            discoveredServices.remove(position);
-                            communicationToServers.remove(position);
-                            chatActivity.setDiscoveredServices(discoveredServices);
-                        }
+                handler.post(() -> {
+                    ArrayList<NetworkService> discoveredServices = chatActivity.getDiscoveredServices();
+                    NetworkService networkService = new NetworkService(serviceEvent.getName(), finalizedHost, finalizedPort, -1);
+
+                    if (discoveredServices.contains(networkService)) {
+                        int position = discoveredServices.indexOf(networkService);
+                        discoveredServices.remove(position);
+                        communicationToServers.remove(position);
+                        chatActivity.setDiscoveredServices(discoveredServices);
                     }
                 });
             }
@@ -132,7 +124,7 @@ public class NetworkServiceDiscoveryOperations {
                 }
 
                 String[] hosts = serviceInfo.getHostAddresses();
-                String host = null;
+                String host;
                 if (hosts.length == 0) {
                     Log.e(Constants.TAG, "No host addresses returned for the service!");
                     return;
@@ -151,7 +143,6 @@ public class NetworkServiceDiscoveryOperations {
                     discoveredServices.add(networkService);
                     chatActivity.setDiscoveredServices(discoveredServices);
                 }
-
                 Log.i(Constants.TAG, "A service has been discovered on " + host + ":" + port);
             }
         };
@@ -174,13 +165,16 @@ public class NetworkServiceDiscoveryOperations {
                 Constants.SERVICE_DESCRIPTION
         );
 
-        if (jmDNS != null && serviceInfo != null) {
+        if (jmDNS != null) {
             serviceName = serviceInfo.getName();
             jmDNS.registerService(serviceInfo);
         }
-	// question 5d
-	// set the title of the activity to the advertised service name
-	// Log name, type and port 
+        chatActivity.setTitle(serviceInfo.getName());
+        Log.i(Constants.TAG, "Register service " +
+                serviceInfo.getName() + ":" +
+                serviceInfo.getTypeWithSubtype() + ":" +
+                serviceInfo.getPort()
+        );
     }
 
     public void unregisterNetworkService() {
@@ -196,8 +190,7 @@ public class NetworkServiceDiscoveryOperations {
         ArrayList<NetworkService> conversations = chatActivity.getConversations();
         conversations.clear();
         chatActivity.setConversations(conversations);
-        // question 5d
-	// reset the title to default when not advertising anything
+        chatActivity.setTitle("Chat Service JmDNS");
     }
 
     public void startNetworkServiceDiscovery() {
@@ -221,20 +214,8 @@ public class NetworkServiceDiscoveryOperations {
         communicationToServers.clear();
     }
 
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     public List<ChatClient> getCommunicationToServers() {
         return communicationToServers;
-    }
-
-    public void setCommunicationToServers(List<ChatClient> communicationToServers) {
-        this.communicationToServers = communicationToServers;
     }
 
     public List<ChatClient> getCommunicationFromClients() {
